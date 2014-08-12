@@ -5,6 +5,9 @@
  * this file and include it in basic-server.js so that it actually works.
  * *Hint* Check out the node module documentation at http://nodejs.org/api/modules.html. */
 
+
+
+
 var handleRequest = function(request, response) {
   /* the 'request' argument comes from nodes http module. It includes info about the
   request - such as what URL the browser is requesting. */
@@ -13,6 +16,8 @@ var handleRequest = function(request, response) {
    * http://nodemanual.org/0.8.14/nodejs_ref_guide/http.html */
 
   console.log("Serving request type " + request.method + " for url " + request.url);
+
+  // console.log(messages); // test to see if basic-server.js/messages is accessible
 
   var statusCode = 200;
 
@@ -29,8 +34,12 @@ var handleRequest = function(request, response) {
    * anything back to the client until you do. The string you pass to
    * response.end() will be the body of the response - i.e. what shows
    * up in the browser.*/
-  response.end("Hello, World!");
-};
+  response.end( JSON.stringify(messages) );
+
+  // response.end( function() {
+  //   JSON.stringify(messages)
+  // }); // response.end with anonymous function
+}; // end handleRequest
 
 /* These headers will allow Cross-Origin Resource Sharing (CORS).
  * This CRUCIAL code allows this server to talk to websites that
@@ -45,3 +54,30 @@ var defaultCorsHeaders = {
 };
 
 module.exports = handleRequest;
+
+/////////////////// MESSAGES ///////////////////////
+var messages = {
+  results: [
+    {username: 'Aaron', text: 'Hello world!', roomname: 'The HR', createdAt: new Date(), updatedAt: new Date()},
+    {username: 'Ben', text: 'Sup wurld!', roomname: 'The HR', createdAt: new Date(), updatedAt: new Date()}
+  ] // create a 'results' array
+}; // end messages{}
+
+
+// FOR REFERENCE: App.js line 213
+// var message = {
+//   username: app.username,
+//   text: app.$message.val(),
+//   roomname: app.roomname || 'lobby'
+// };
+
+
+// var newMessage = function(a, b, c) {
+//   var msgTemplate = {
+//     username: '',
+//     text: '',
+//     roomname: '',
+//     createdAt: new Date(),
+//     updatedAt: new Date()
+//   }; // end msgTemplate
+// }; // end newMessage
