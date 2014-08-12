@@ -34,6 +34,25 @@ var handleRequest = function(request, response) {
    * anything back to the client until you do. The string you pass to
    * response.end() will be the body of the response - i.e. what shows
    * up in the browser.*/
+   //var qs = require('querystring');
+
+   if (request.method === 'GET'){
+     response.end( JSON.stringify(messages));
+   } else if (request.method === 'OPTIONS'){
+     response.end( JSON.stringify(messages));
+   } else if (request.method === 'POST' && request.url === '/send'){
+
+     var body = '';
+     request.on('data', function(data){
+      body += data;
+
+     });
+     request.on('end', function() {
+       var post = JSON.parse(body);
+       //console.log(JSON.parse(post));
+       messages.results.push(post);
+     });
+   }
   response.end( JSON.stringify(messages) );
 
   // response.end( function() {
